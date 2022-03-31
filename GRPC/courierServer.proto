@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "GRPC/courierProto";
+
+package courier;
+
+service CourierServer {
+  rpc CreateOrder(OrderCourierServer) returns (google.protobuf.Empty) {}
+  rpc GetDeliveryServicesList(google.protobuf.Empty) returns (ServicesResponse) {}
+}
+
+message OrderCourierServer{
+  int64  OrderID = 1;
+  int64  CourierServiceID = 2;
+  string RestaurantAddress = 3;
+  string RestaurantName = 4;
+  string ClientAddress = 5;
+  string ClientFullName = 6;
+  string ClientPhoneNumber = 7;
+  google.protobuf.Timestamp DeliveryTime = 8;
+  int64  PaymentType = 9;
+}
+
+message ServicesResponse {
+  repeated DeliveryService services = 1;
+}
+
+message DeliveryService {
+  int64  Id = 1;
+  string Name = 2;
+  string Email = 3;
+  string Photo = 4;
+  string Description = 5;
+  string Phone = 6;
+  int64  ManagerId = 7;
+  string Status = 8;
+}

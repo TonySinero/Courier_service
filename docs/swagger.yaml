@@ -1,0 +1,898 @@
+definitions:
+  controller.listCouriers:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dao.Courier'
+        type: array
+    type: object
+  controller.listDeliveryServices:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dao.DeliveryService'
+        type: array
+    type: object
+  controller.listDetailedOrders:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dao.DetailedOrder'
+        type: array
+    type: object
+  controller.listOrders:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dao.DetailedOrder'
+        type: array
+    type: object
+  controller.listShortOrders:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/dao.Order'
+        type: array
+    type: object
+  dao.AllInfoAboutOrder:
+    properties:
+      courier_id:
+        type: integer
+      customer_address:
+        type: string
+      customer_name:
+        type: string
+      customer_phone:
+        type: string
+      delivery_service_id:
+        type: integer
+      delivery_time:
+        type: string
+      id:
+        type: integer
+      id_from_restaurant:
+        type: integer
+      name:
+        type: string
+      order_date:
+        type: string
+      payment_type:
+        type: integer
+      phone_number:
+        type: string
+      picked:
+        type: boolean
+      restaurant_address:
+        type: string
+      restaurant_name:
+        type: string
+      status:
+        type: string
+      surname:
+        type: string
+    type: object
+  dao.Courier:
+    properties:
+      courier_name:
+        type: string
+      deleted:
+        type: boolean
+      delivery_service_id:
+        type: integer
+      email:
+        type: string
+      id_courier:
+        type: integer
+      number_of_failures:
+        type: integer
+      phone_number:
+        type: string
+      photo:
+        type: string
+      rating:
+        type: integer
+      ready_to_go:
+        type: boolean
+      surname:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dao.DeliveryService:
+    properties:
+      description:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      manager_id:
+        type: integer
+      name:
+        type: string
+      numOfCouriers:
+        type: integer
+      phone_number:
+        type: string
+      photo:
+        type: string
+      status:
+        type: string
+    type: object
+  dao.DetailedOrder:
+    properties:
+      courier_id:
+        type: integer
+      customer_address:
+        type: string
+      delivery_service_id:
+        type: integer
+      delivery_time:
+        type: string
+      id:
+        type: integer
+      id_from_restaurant:
+        type: integer
+      name:
+        type: string
+      order_date:
+        type: string
+      phone_number:
+        type: string
+      picked:
+        type: boolean
+      restaurant_address:
+        type: string
+      status:
+        type: string
+      surname:
+        type: string
+    type: object
+  dao.Order:
+    properties:
+      courier_id:
+        type: integer
+      customer_address:
+        type: string
+      delivery_service_id:
+        type: integer
+      delivery_time:
+        type: string
+      id:
+        type: integer
+      order_date:
+        type: string
+      picked:
+        type: boolean
+      restaurant_address:
+        type: string
+      status:
+        type: string
+    type: object
+  dao.SmallInfo:
+    properties:
+      courier_name:
+        type: string
+      deleted:
+        type: boolean
+      id_courier:
+        type: integer
+      phone_number:
+        type: string
+      photo:
+        type: string
+      surname:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Courier Service for Food Delivery Application
+  title: Courier Service
+paths:
+  /courier:
+    post:
+      consumes:
+      - application/json
+      description: post new courier
+      parameters:
+      - description: Courier
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dao.Courier'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.Courier'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: SaveCourier
+      tags:
+      - Courier
+  /courier/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get courier by ID
+      parameters:
+      - description: Courier ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.Courier'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetCourier
+      tags:
+      - Courier
+    put:
+      consumes:
+      - application/json
+      description: put courier status by courier ID
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: deleted
+        in: body
+        name: input
+        required: true
+        schema:
+          type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.Courier'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: NewUpdateCourier
+      tags:
+      - Courier
+  /couriers:
+    get:
+      consumes:
+      - application/json
+      description: get all couriers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.SmallInfo'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: GetCouriers
+      tags:
+      - Couriers
+  /couriers/photo:
+    post:
+      consumes:
+      - image/jpeg
+      description: set photo to DO Spaces, and it's way to DB
+      parameters:
+      - description: id courier
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: logo image
+        in: formData
+        name: logo
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: SaveCourierPhoto
+      tags:
+      - Couriers
+  /couriers/service:
+    get:
+      description: get list of all couriers by courier service id
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: iddeliveryservice
+        in: query
+        name: iddeliveryservice
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.listCouriers'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetCouriersOfCourierService
+      tags:
+      - Couriers
+  /deliveryservice:
+    get:
+      description: get list of all delivery service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.listDeliveryServices'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetAllDeliveryServices
+      tags:
+      - DeliveryService
+    post:
+      consumes:
+      - application/json
+      description: create a Delivery Service
+      parameters:
+      - description: Delivery Service
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dao.DeliveryService'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.DeliveryService'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: CreateDeliveryService
+      tags:
+      - DeliveryService
+  /deliveryservice/{id}:
+    get:
+      description: get delivery service by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.DeliveryService'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetDeliveryServiceById
+      tags:
+      - DeliveryService
+    put:
+      consumes:
+      - application/json
+      description: update delivery service information
+      parameters:
+      - description: order_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: delivery service
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dao.DeliveryService'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateDeliveryService
+      tags:
+      - DeliveryService
+  /deliveryservice/logo:
+    post:
+      consumes:
+      - image/jpeg
+      description: set logo to DO Spaces, and it's way to DB
+      parameters:
+      - description: id delivery service
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: logo image
+        in: formData
+        name: logo
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: SaveLogoController
+      tags:
+      - DeliveryService
+  /order/{id}:
+    get:
+      consumes:
+      - application/json
+      description: check auth information
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.Order'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: GetOrder
+      tags:
+      - Orders
+  /order/detailed/{id}:
+    get:
+      description: get detailed order by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.AllInfoAboutOrder'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetDetailedOrderById
+      tags:
+      - order
+  /order/status_change/{id}:
+    put:
+      consumes:
+      - application/json
+      description: put order status by order ID
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: status
+        in: body
+        name: input
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.Order'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: ChangeOrderStatus
+      tags:
+      - Orders
+  /orders:
+    get:
+      description: get list of all orders by courier service id
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: iddeliveryservice
+        in: query
+        name: iddeliveryservice
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.listDetailedOrders'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetAllOrdersOfCourierService
+      tags:
+      - Orders
+  /orders/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get orders by courier ID
+      parameters:
+      - description: Courier ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dao.Order'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetOrders
+      tags:
+      - Orders
+    put:
+      consumes:
+      - application/json
+      description: assign order to courier
+      operationId: UpdateOrder
+      parameters:
+      - description: order_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: id courier
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/dao.Order'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateOrder
+      tags:
+      - Orders
+  /orders/bymonth:
+    get:
+      description: get list of completed orders by courier id sorted by month
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: idcourier
+        in: query
+        name: idcourier
+        required: true
+        type: integer
+      - description: month
+        in: query
+        name: month
+        required: true
+        type: integer
+      - description: year
+        in: query
+        name: year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.listShortOrders'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetCourierCompletedOrdersByMonth
+      tags:
+      - Orders
+  /orders/completed:
+    get:
+      description: get list of completed orders by courier id
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: idcourier
+        in: query
+        name: idcourier
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.listOrders'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetCourierCompletedOrders
+      tags:
+      - Orders
+  /orders/manager:
+    get:
+      description: get list of all orders by courier service id with custom status
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: iddeliveryservice
+        in: query
+        name: iddeliveryservice
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.listDetailedOrders'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetOrdersOfCourierServiceForManager
+      tags:
+      - order
+  /orders/service/completed:
+    get:
+      description: get list of completed orders by courier service id
+      parameters:
+      - description: limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: iddeliveryservice
+        in: query
+        name: iddeliveryservice
+        required: true
+        type: integer
+      - description: sort
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.listShortOrders'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetCompletedOrdersOfCourierService
+      tags:
+      - order
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
